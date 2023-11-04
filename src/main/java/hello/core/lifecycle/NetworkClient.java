@@ -1,9 +1,10 @@
 package hello.core.lifecycle;
 
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 
-public class NetworkClient implements InitializingBean, DisposableBean {
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
+public class NetworkClient{
     private String url;
 
     public NetworkClient() {
@@ -31,15 +32,17 @@ public class NetworkClient implements InitializingBean, DisposableBean {
     }
 
     //외존관계 주입이 끝나면 호출
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @PostConstruct
+    public void init(){
+        System.out.println("NetwokrClient.init");
         connect(); //의존관계 주입이 끝나면 연결할것이다.
         call("초기화 연결 메세지");
     }
 
     //빈 사망 전에 호출
-    @Override
-    public void destroy() throws Exception {
+    @PreDestroy
+    public void close()  {
+        System.out.println("NetworkClient.destroy");
         disconnect();
     }
 }
