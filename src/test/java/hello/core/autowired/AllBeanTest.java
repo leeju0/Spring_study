@@ -35,7 +35,11 @@ public class AllBeanTest {
             System.out.println("policies = " + policies);
         }
 
-        public int discount(Member member, int i, String fixDiscountPolicy) {
+        public int discount(Member member, int price, String discountCode) {
+            DiscountPolicy discountPolicy = policyMap.get(discountCode);
+            System.out.println("discountCode = " + discountCode);
+            System.out.println("discountPolicy = " + discountPolicy);
+            return discountPolicy.discount(member, price);
         }
     }
 }
